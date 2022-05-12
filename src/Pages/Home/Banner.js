@@ -11,8 +11,8 @@ const Banner = () => {
                     <img src={chair} className="rounded-lg shadow-2xl" />
                 </div>
                 <div className='basis-1/2'>
-                    <h1 class="text-5xl font-bold">Your New Smile Starts Here</h1>
-                    <p class="py-6">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
+                    <h1 className="text-5xl font-bold">Your New Smile Starts Here</h1>
+                    <p className="py-6">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
                     <BtnPrimary>GET STARTED</BtnPrimary>
                 </div>
             </div>

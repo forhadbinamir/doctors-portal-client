@@ -1,5 +1,6 @@
 import React from 'react';
 import bgform from '../../assets/images/appointment.png'
+import BtnPrimary from './BtnPrimary';
 const Contact = () => {
     return (
         <section style={{ backgroundImage: `url(${bgform})` }} className='border ' >
@@ -12,7 +13,8 @@ const Contact = () => {
                 <input className='mb-2 w-full border p-2 rounded-lg' type="text" placeholder='Subject' />
                 <textarea className='mb-2 w-full border rounded-lg' name="" id="" cols="30" rows="4"></textarea>
                 <div className='flex justify-center'>
-                    <input className='bg-primary py-2 px-3 rounded text-white font-bold w-24 mx-auto' type="submit" value="submit" />
+                    <BtnPrimary>SUBMIT</BtnPrimary>
+
                 </div>
             </form>
         </section>
