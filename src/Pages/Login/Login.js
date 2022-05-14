@@ -1,10 +1,12 @@
-import React from 'react';
-import { useSignInWithEmailAndPassword, useSignInWithGoogle, useUpdateProfile } from 'react-firebase-hooks/auth';
+import React, { useEffect, useRef } from 'react';
+import { useSendPasswordResetEmail, useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import auth from '../Firebase.init';
 import Loading from '../Shared/Loading/Loading';
 const Login = () => {
+    const emailRef = useRef()
     const [signInWithGoogle, googleUser, googleError, googleLoading] = useSignInWithGoogle(auth);
     const [
         signInWithEmailAndPassword,
@@ -12,24 +14,44 @@ const Login = () => {
         loading,
         error,
     ] = useSignInWithEmailAndPassword(auth);
+
+    const [sendPasswordResetEmail, sending, resetError] = useSendPasswordResetEmail(
+        auth
+    );
+
     const { register, handleSubmit, formState: { errors } } = useForm();
     const onSubmit = data => {
         signInWithEmailAndPassword(data.email, data.password)
-        console.log(data)
     };
+
     const location = useLocation()
     const navigate = useNavigate()
     let from = location.state?.from?.pathname || "/";
 
-    if (user || googleUser) {
-        navigate(from, { replace: true });
-    }
+    useEffect(() => {
+        if (user || googleUser) {
+            navigate(from, { replace: true });
+        }
+    }, [user, googleUser, from, navigate])
     let errorText;
     if (error || googleError) {
         errorText = <p className='text-red-500'><small>Error: {error?.message} {googleError?.message}</small></p>
     }
     if (loading || googleLoading) {
         return <Loading></Loading>
+    }
+
+    const handleResetPassword = async () => {
+        const email = emailRef.current.value
+        if (!email) {
+            toast('Please enter your email')
+        } else {
+
+            await sendPasswordResetEmail(email)
+            toast('Reset email sended')
+        }
+
+
     }
     return (
         <div className='flex h-screen justify-center items-center'>
@@ -55,7 +77,7 @@ const Login = () => {
                                     }
                                 })}
 
-                                type="email" placeholder="Your Email" className="input input-bordered w-full max-w-xs" />
+                                type="email" placeholder="Your Email" ref={emailRef} className="input input-bordered w-full max-w-xs" />
                             <label className="label">
                                 {errors.email?.type === 'required' && <span className="label-text-alt text-red-500">{errors.email.message}</span>}
                                 {errors.email?.type === 'pattern' && <span className="label-text-alt text-red-500">{errors.email.message}</span>}
@@ -88,6 +110,7 @@ const Login = () => {
                         {errorText}
                         <button type='submit' className="btn w-full max-w-xs">Login</button>
                         <p className='text-center mt-1'>Are you new to here <Link className='text-primary' to='/signup'>Please SingUp</Link> </p>
+                        <p onClick={handleResetPassword} className='text-yellow-300 cursor-pointer text-center'>Forget Password</p>
                     </form>
 
                     <div className="divider">OR</div>
