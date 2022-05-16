@@ -16,6 +16,9 @@ const Header = () => {
         <li><Link to='/review'>Review</Link></li>
         <li><Link to='/about'>About</Link></li>
         <li><Link to='/contact'>Contact</Link></li>
+        {
+            user && <li><Link to='/dashboard'>Dashboard</Link></li>
+        }
         <li>{user ? <button onClick={() => logOut()} className="btn btn-active btn-ghost">Sing Out</button> : <Link to='/login'>Login</Link>}</li>
     </>
     return (
@@ -36,6 +39,9 @@ const Header = () => {
                     <ul className="menu menu-horizontal p-0">
                         {menuItem}
                     </ul>
+                </div>
+                <div className="navbar-end lg:hidden">
+                    <label for="my-drawer-2" class="btn btn-primary text-white drawer-button lg:hidden">Dashboard</label>
                 </div>
             </div>
         </div>

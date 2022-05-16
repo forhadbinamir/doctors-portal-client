@@ -4,17 +4,17 @@ const BookAppointment = ({ booking, setTreatment }) => {
     const { name, slots } = booking
     return (
         <div className="card lg:max-w-lg bg-base-100 shadow-xl my-10">
-            <div className="card-body">
-                <h2 className="card-title text-primary">{name}</h2>
+            <div className="card-body text-center">
+                <h2 className="text-center text-2xl font-bold text-primary">{name}</h2>
                 <p>
                     {
-                        slots.length
+                        slots.length > 0
                             ? < span >{slots[0]}</span>
                             :
                             <span>Try another day</span>
                     }
                 </p>
-                <p className='font-bold text-red-500'>{slots.length}{slots.length > 1 ? ' Spaces' : ' Space'} Available</p>
+                <p className='font-bold'>{slots.length}{slots.length > 1 ? ' Spaces' : ' Space'} Available</p>
                 <div className="card-actions justify-center">
 
                     <label onClick={() => setTreatment(booking)}

@@ -7,8 +7,14 @@ const Appointment = () => {
 
     return (
         <div>
-            <AppointmentBanner date={date} setDate={setDate} />
-            <AvailableAppointment date={date} setDate={setDate} />
+            <AppointmentBanner
+                date={date}
+                setDate={setDate}
+            />
+            <AvailableAppointment
+                date={date}
+                setDate={setDate}
+            />
         </div>
     );
 };

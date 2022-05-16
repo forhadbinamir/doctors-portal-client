@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useCreateUserWithEmailAndPassword, useSignInWithGoogle, useUpdateProfile } from 'react-firebase-hooks/auth';
 import { useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -29,9 +29,11 @@ const Signup = () => {
     };
     let from = location.state?.from?.pathname || "/";
 
-    if (user || googleUser) {
-        navigate(from, { replace: true });
-    }
+    useEffect(() => {
+        if (user || googleUser) {
+            navigate(from, { replace: true });
+        }
+    }, [user, googleUser, from, navigate])
     let errorText;
     if (error || googleError) {
         errorText = <p className='text-red-500'><small>Error: {error?.message}{googleError?.message} {updateError?.message}</small></p>

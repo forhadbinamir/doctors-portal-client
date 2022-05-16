@@ -29,9 +29,10 @@ const AppointmentBanner = ({ date, setDate }) => {
           <img src={chair} className="rounded-lg shadow-2xl" />
         </div>
         <div className='basis-1/2 lg:pl-10'>
-          <DayPicker modifiersClassNames={{ selected: 'my-selected', today: 'my-today' }}
+          <DayPicker
+            modifiersClassNames={{ selected: 'my-selected', today: 'my-today' }}
             mode="single"
-            selected={date}
+            selected={(date, null)}
             onSelect={setDate}
           />
         </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSendPasswordResetEmail, useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import auth from '../Firebase.init';
 import Loading from '../Shared/Loading/Loading';
 const Login = () => {
-    const emailRef = useRef()
+    const [email, setEmail] = useState('')
     const [signInWithGoogle, googleUser, googleError, googleLoading] = useSignInWithGoogle(auth);
     const [
         signInWithEmailAndPassword,
@@ -18,9 +18,10 @@ const Login = () => {
     const [sendPasswordResetEmail, sending, resetError] = useSendPasswordResetEmail(
         auth
     );
-
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    let userEmail
+    const { register, handleSubmit, getValues, formState: { errors } } = useForm();
     const onSubmit = data => {
+        userEmail = data.email
         signInWithEmailAndPassword(data.email, data.password)
     };
 
@@ -42,7 +43,8 @@ const Login = () => {
     }
 
     const handleResetPassword = async () => {
-        const email = emailRef.current.value
+        const email = getValues('email')
+
         if (!email) {
             toast('Please enter your email')
         } else {
@@ -77,7 +79,7 @@ const Login = () => {
                                     }
                                 })}
 
-                                type="email" placeholder="Your Email" ref={emailRef} className="input input-bordered w-full max-w-xs" />
+                                type="email" placeholder="Your Email" className="input input-bordered w-full max-w-xs" />
                             <label className="label">
                                 {errors.email?.type === 'required' && <span className="label-text-alt text-red-500">{errors.email.message}</span>}
                                 {errors.email?.type === 'pattern' && <span className="label-text-alt text-red-500">{errors.email.message}</span>}
