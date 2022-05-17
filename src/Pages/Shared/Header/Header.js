@@ -9,6 +9,7 @@ const Header = () => {
 
     const logOut = () => {
         signOut(auth)
+        localStorage.removeItem('accessToken')
     }
     const menuItem = <>
         <li><Link to='/home'>Home</Link></li>
@@ -41,7 +42,7 @@ const Header = () => {
                     </ul>
                 </div>
                 <div className="navbar-end lg:hidden">
-                    <label for="my-drawer-2" class="btn btn-primary text-white drawer-button lg:hidden">Dashboard</label>
+                    <label htmlFor="my-drawer-2" className="btn btn-primary text-white drawer-button lg:hidden">Dashboard</label>
                 </div>
             </div>
         </div>

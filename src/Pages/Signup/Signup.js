@@ -3,6 +3,7 @@ import { useCreateUserWithEmailAndPassword, useSignInWithGoogle, useUpdateProfil
 import { useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import useToken from '../../Hooks/useToken';
 import auth from '../Firebase.init';
 import Loading from '../Shared/Loading/Loading';
 const Signup = () => {
@@ -24,16 +25,18 @@ const Signup = () => {
         await createUserWithEmailAndPassword(data.email, data.password)
         await updateProfile({ displayName: data.name })
         toast('Check your email confirmation')
-        navigate('/appointment')
-        console.log(data)
+        // navigate('/appointment')
+        // console.log(data)    
     };
+    const [token] = useToken(user || googleUser)
+
     let from = location.state?.from?.pathname || "/";
 
     useEffect(() => {
-        if (user || googleUser) {
+        if (token) {
             navigate(from, { replace: true });
         }
-    }, [user, googleUser, from, navigate])
+    }, [token, from, navigate])
     let errorText;
     if (error || googleError) {
         errorText = <p className='text-red-500'><small>Error: {error?.message}{googleError?.message} {updateError?.message}</small></p>

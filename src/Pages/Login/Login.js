@@ -3,10 +3,10 @@ import { useSendPasswordResetEmail, useSignInWithEmailAndPassword, useSignInWith
 import { useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import useToken from '../../Hooks/useToken';
 import auth from '../Firebase.init';
 import Loading from '../Shared/Loading/Loading';
 const Login = () => {
-    const [email, setEmail] = useState('')
     const [signInWithGoogle, googleUser, googleError, googleLoading] = useSignInWithGoogle(auth);
     const [
         signInWithEmailAndPassword,
@@ -18,25 +18,23 @@ const Login = () => {
     const [sendPasswordResetEmail, sending, resetError] = useSendPasswordResetEmail(
         auth
     );
-    let userEmail
     const { register, handleSubmit, getValues, formState: { errors } } = useForm();
     const onSubmit = data => {
-        userEmail = data.email
         signInWithEmailAndPassword(data.email, data.password)
     };
-
+    const [token] = useToken(user || googleUser)
     const location = useLocation()
     const navigate = useNavigate()
     let from = location.state?.from?.pathname || "/";
 
     useEffect(() => {
-        if (user || googleUser) {
+        if (token) {
             navigate(from, { replace: true });
         }
-    }, [user, googleUser, from, navigate])
+    }, [token, from, navigate])
     let errorText;
     if (error || googleError) {
-        errorText = <p className='text-red-500'><small>Error: {error?.message} {googleError?.message}</small></p>
+        errorText = <p className='text-red-500'><small>{error?.message} {googleError?.message}</small></p>
     }
     if (loading || googleLoading) {
         return <Loading></Loading>
