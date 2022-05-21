@@ -7,12 +7,16 @@ import RequireAuth from './Pages/RequireAuth/RequireAuth';
 import Footer from './Pages/Shared/Footer/Footer';
 import Header from './Pages/Shared/Header/Header';
 import Signup from './Pages/Signup/Signup';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Dashboard from './Pages/Dashboard/Dashboard';
 import MyAppointment from './Pages/Dashboard/MyAppointment';
 import MyReview from './Pages/Dashboard/MyReview';
 import UsersRow from './Pages/Dashboard/UsersRow';
+import RequireAdmin from './Pages/RequireAuth/RequireAdmin';
+import Adddoctor from './Pages/Dashboard/Adddoctor';
+import ManageDoctor from './Pages/Dashboard/ManageDoctor';
+import Payment from './Pages/Dashboard/Payment';
 function App() {
   return (
     <div className='max-w-7xl mx-auto px-12'>
@@ -27,11 +31,26 @@ function App() {
         }>
           <Route index element={<MyAppointment></MyAppointment>}></Route>
           <Route path='review' element={<MyReview />}></Route>
-          <Route path='users' element={<UsersRow />}></Route>
+          <Route path='payment/:id' element={<Payment />}></Route>
+          <Route path='users' element={
+            <RequireAdmin>
+              <UsersRow></UsersRow>
+            </RequireAdmin>
+          }></Route>
+          <Route path='managedoctor' element={
+            <RequireAdmin>
+              <ManageDoctor></ManageDoctor>
+            </RequireAdmin>
+          }></Route>
+          <Route path='doctor' element={
+            <RequireAdmin>
+              <Adddoctor></Adddoctor>
+            </RequireAdmin>
+          }></Route>
         </Route>
         <Route path='appointment' element={
           <RequireAuth>
-            <Appointment />
+            <Appointment></Appointment>
           </RequireAuth>
         }></Route>
         <Route path='login' element={<Login />}></Route>

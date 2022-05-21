@@ -6,7 +6,6 @@ import BookAppointment from './BookAppointment';
 import BookingModel from './BookingModel';
 
 const AvailableAppointment = ({ date, setDate }) => {
-    // const [booking, setBooking] = useState([])
     const [treatment, setTreatment] = useState(null)
     const formattedDate = format(date, "PP")
 
